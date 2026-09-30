@@ -20,7 +20,8 @@ Com tão poucos meses, a diferença pode ser sorte.
 
 A baixa tensão subiu 12 % a 16 % face ao ano anterior e voltou ao normal em março.
 - Acontece nas 4 freguesias de Espinho e na mediana dos 278 concelhos de Portugal continental, sem os agregados "OUTROS" (+11,7 % em nov, +12,4 % em dez, +13,1 % em jan, +8,7 % em fev, -2,6 % em mar; src/diagnostico_nacional.py).
-- A REN mostra o mesmo padrão no consumo nacional (variação face ao mesmo mês do ano anterior: nov +6,6 %, dez +6,9 %, jan +7,6 %, fev +3,7 %, mar -0,7 %; valores do Data Hub consultados em 30 set 2026, a REN revê-os). Com a correção de temperatura e dias úteis que a própria REN publica (não calculada aqui), a variação é de +2,3 % em nov, +4,8 % em dez, +5,3 % em jan e +4,4 % em fev, acima do crescimento de fundo de cerca de +2,7 % ao ano que a REN indica para 2026. Liga-se a um inverno frio e com tempestades e a uma base baixa em nov 2024. Por isso é em boa parte consumo real e não um erro de faturação: o total de Espinho (todos os níveis de tensão) subiu +8,0 % a +10,5 % em nov-fev contra +3,7 % a +7,6 % no país, pelo que o consumo nacional explica cerca de dois terços a três quartos do salto em nov-jan e menos de metade em fev (comparação aproximada). O resto fica por explicar.
+- A REN mostra o mesmo padrão no consumo nacional (variação face ao mesmo mês do ano anterior: nov +6,6 %, dez +6,9 %, jan +7,6 %, fev +3,7 %, mar -0,7 %; valores do Data Hub consultados em 30 set 2026, a REN revê-os). Com a correção de temperatura e dias úteis que a própria REN publica (não calculada aqui), a variação é de +2,3 % em nov, +4,8 % em dez, +5,3 % em jan e +4,4 % em fev, acima do crescimento de fundo de cerca de +2,7 % ao ano que a REN indica para 2026. A REN liga o consumo nacional de janeiro ao frio e às tempestades, e o de novembro a uma base baixa em nov 2024. Por isso é em boa parte consumo real e não um erro de faturação: o total de Espinho (todos os níveis de tensão) subiu +8,0 % a +10,5 % em nov-fev contra +3,7 % a +7,6 % no país, pelo que o consumo nacional explica cerca de dois terços a três quartos do salto em nov-jan e menos de metade em fev (comparação aproximada). O resto fica por explicar.
+- Em Espinho o frio explica só parte do salto (src/graus_dia.py, graus-dia de aquecimento pela definição do Eurostat): dez teve 227 graus-dia contra 228 e fev 180 contra 177, e o consumo subiu 10,3 % e 8,0 %; só nov (143 contra 51) e jan (242 contra 206) tiveram mais frio. Estimativas do peso do frio no aumento de nov-fev (3,06 GWh): 11 % (0,33 GWh; ajuste ano contra ano só com dados anteriores a nov 2025, 2,5 MWh por grau-dia) e 29 % (0,90 GWh; regressão do consumo contra graus-dia em todos os meses, 7,0 MWh por grau-dia, que inclui os meses de 2025/26 e mistura frio com outros efeitos sazonais, por isso é uma estimativa por cima). Dados faturados suavizam os meses. A maior parte do aumento (cerca de 70 % a 90 %) fica por explicar.
 - A média mensal de temperatura de Espinho não explicou o salto (dezembro teve a mesma temperatura e subiu 14 %), mas esta média é grosseira.
 - Parte do salto ficou por explicar: a baixa tensão sobe mais do que o total nacional.
 - Nenhum modelo treinado só com Espinho o previa. Reportamos os dois números (com e sem estes meses).
@@ -29,6 +30,7 @@ A baixa tensão subiu 12 % a 16 % face ao ano anterior e voltou ao normal em mar
 
 - Correção por crescimento dos últimos 12 meses (src/avaliar.py, 42 meses de teste, 2022-11 a 2026-04): 3,41 % contra 2,69 % do simples. Ganha em 15 de 42 meses. A janela de teste é diferente da tabela acima (30 meses), por isso os números do método simples não coincidem.
 - Temperatura (correlação -0,81 é sobretudo sazonalidade): ano contra ano, 1 grau mais frio dá só cerca de 0,8 % mais consumo. Não bateu a média de 2 anos.
+- Graus-dia de aquecimento (src/graus_dia.py, usa a temperatura real do mês): com tendência erra 2,29 % (todos os meses), 1,62 % (sem os 4 anómalos) e 6,65 % em nov-fev 2025/26; a média de 2 anos erra 2,48 %, 1,62 % e 8,05 %. Fora do inverno anómalo o ganho é nulo (1,62 % nos dois); no inverno 2025/26 o erro desce de 8,05 % para 6,65 %. Precisaria de previsões de temperatura, por isso o método final continua a ser a média de 2 anos.
 
 ## Limitações
 
@@ -48,6 +50,7 @@ A baixa tensão subiu 12 % a 16 % face ao ano anterior e voltou ao normal em mar
     py src/diagnostico.py                 (salto por nível de tensão)
     py src/diagnostico_freguesias.py      (salto por freguesia)
     py src/diagnostico_nacional.py        (salto nos concelhos do país)
+    py src/graus_dia.py                  (graus-dia de aquecimento)
 
 Dados: E-Redes Open Data (consumos faturados por município) e Open-Meteo (temperatura).
 REN Data Hub, evolução do consumo: https://datahub.ren.pt/pt/eletricidade/evolucao-do-consumo/

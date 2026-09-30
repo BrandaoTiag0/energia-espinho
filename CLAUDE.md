@@ -10,3 +10,4 @@ Regras:
 - Máximo 5-6 h por semana
 
 Passos: 1) descarregar dados 2) limpar 3) previsão simples 4) melhorar
+- No Windows/Git Bash usa 'py' para correr Python (o comando 'python' não existe)
